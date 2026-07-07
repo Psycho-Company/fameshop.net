@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fameshop Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0c0d10;--ink-soft:#41454f;--mute:#8b909c;--line:rgba(12,13,16,.09);--wash:#f5f6f8;--r:18px}*{box-sizing:border-box}body{margin:0;background:var(--wash);color:var(--ink);font-family:Inter,system-ui,sans-serif}.wrap{max-width:1280px;margin:0 auto;padding:32px 22px}h1{font-family:Fraunces,Georgia,serif;font-weight:400;font-size:36px;margin:0}.top{display:flex;justify-content:space-between;gap:18px;align-items:center}.card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:18px;margin-top:18px}input,select,button{font:inherit}input,select{border:1px solid var(--line);border-radius:12px;padding:11px 12px;background:#fff}button{border:1px solid var(--ink);background:var(--ink);color:#fff;border-radius:12px;padding:11px 14px;font-weight:600;cursor:pointer}button.secondary{background:#fff;color:var(--ink);border-color:var(--line)}table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:12px;border-bottom:1px solid var(--line);vertical-align:top}th{font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.08em;font-size:10px;color:var(--mute)}.mono{font-family:'JetBrains Mono',monospace;font-size:12px}.muted{color:var(--mute)}.pill{display:inline-flex;border:1px solid var(--line);border-radius:100px;padding:4px 8px;font-size:11px;background:var(--wash)}.actions{display:flex;gap:6px;flex-wrap:wrap}.actions button{font-size:11px;padding:7px 9px}.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.error{color:#9a3412;background:#fff7ed;border:1px solid #fed7aa;padding:12px;border-radius:12px;margin-top:12px}.hidden{display:none}@media(max-width:900px){table,thead,tbody,tr,th,td{display:block}thead{display:none}tr{border:1px solid var(--line);border-radius:14px;margin-bottom:12px;background:#fff}td{border-bottom:none}td::before{content:attr(data-label);display:block;color:var(--mute);font-family:'JetBrains Mono';font-size:10px;text-transform:uppercase;margin-bottom:4px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><div><h1>Fameshop Orders</h1><div class="muted">Lemon Squeezy + manual fulfillment admin</div></div><button class="secondary" id="refresh">Refresh</button></div>
+  <div class="card">
+    <div class="toolbar">
+      <input id="admin-key" type="password" placeholder="ADMIN_KEY if set">
+      <select id="status-filter"><option value="">All statuses</option><option>pending</option><option>paid</option><option>processing</option><option>delivered</option><option>refunded</option><option>failed</option></select>
+      <button id="save-key" class="secondary">Save key</button>
+      <button id="load">Load orders</button>
+    </div>
+    <div id="error" class="error hidden"></div>
+  </div>
+  <div class="card" style="overflow:auto">
+    <table>
+      <thead><tr><th>Order</th><th>Customer</th><th>Package</th><th>Post</th><th>Status</th><th>Payment</th><th>Created</th><th>Actions</th></tr></thead>
+      <tbody id="rows"><tr><td colspan="8" class="muted">Load orders to start.</td></tr></tbody>
+    </table>
+  </div>
+</div>
+<script>
+const el=id=>document.getElementById(id);
+const money=(c,currency='USD')=>new Intl.NumberFormat('en-US',{style:'currency',currency}).format((Number(c)||0)/100);
+const cap=s=>s?String(s).charAt(0).toUpperCase()+String(s).slice(1):'—';
+function key(){return el('admin-key').value || localStorage.getItem('FAMESHOP_ADMIN_KEY') || ''}
+function showError(msg){el('error').textContent=msg;el('error').classList.remove('hidden')}
+function clearError(){el('error').classList.add('hidden');el('error').textContent=''}
+function setRows(orders){
+  if(!orders.length){el('rows').innerHTML='<tr><td colspan="8" class="muted">No orders found.</td></tr>';return;}
+  el('rows').innerHTML=orders.map(o=>`<tr>
+    <td data-label="Order"><div class="mono">${o.order_code}</div><div class="muted">${o.id||''}</div></td>
+    <td data-label="Customer"><b>${o.username?'@'+o.username:'—'}</b><div class="muted">${o.customer_email||o.profile_name||''}</div></td>
+    <td data-label="Package"><b>${cap(o.platform)} ${cap(o.service)}</b><div>${Number(o.amount||0).toLocaleString('en-US')} · ${money(o.price_cents,o.currency||'USD')}</div></td>
+    <td data-label="Post">${o.post_url?`<a href="${o.post_url}" target="_blank" rel="noopener">open post</a>`:'—'}</td>
+    <td data-label="Status"><span class="pill">${o.status}</span></td>
+    <td data-label="Payment"><div>${o.payment_provider||'—'}</div><div class="muted mono">${o.lemonsqueezy_order_id||o.lemonsqueezy_checkout_id||''}</div></td>
+    <td data-label="Created"><div class="mono">${new Date(o.created_at).toLocaleString()}</div></td>
+    <td data-label="Actions"><div class="actions">${['paid','processing','delivered','refunded','failed'].map(s=>`<button onclick="updateStatus('${o.order_code}','${s}')">${s}</button>`).join('')}</div></td>
+  </tr>`).join('');
+}
+async function load(){
+  clearError();
+  const status=el('status-filter').value;
+  try{
+    const r=await fetch(`/api/admin-orders${status?`?status=${encodeURIComponent(status)}`:''}`,{headers:{'x-admin-key':key()},cache:'no-store'});
+    const j=await r.json().catch(()=>({}));
+    if(!r.ok||!j.ok)throw new Error(j.message||j.error||'Could not load orders');
+    setRows(j.orders||[]);
+  }catch(e){showError(e.message||'Could not load orders')}
+}
+async function updateStatus(order_code,status){
+  clearError();
+  try{
+    const r=await fetch('/api/admin-update-order',{method:'POST',headers:{'content-type':'application/json','x-admin-key':key()},body:JSON.stringify({order_code,status})});
+    const j=await r.json().catch(()=>({}));
+    if(!r.ok||!j.ok)throw new Error(j.message||j.error||'Could not update order');
+    load();
+  }catch(e){showError(e.message||'Could not update order')}
+}
+el('save-key').onclick=()=>{localStorage.setItem('FAMESHOP_ADMIN_KEY',el('admin-key').value);load()};
+el('load').onclick=load;el('refresh').onclick=load;el('status-filter').onchange=load;el('admin-key').value=localStorage.getItem('FAMESHOP_ADMIN_KEY')||'';
+load();
+</script>
+</body>
+</html>

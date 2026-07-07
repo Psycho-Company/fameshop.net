@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fameshop — Secure USA checkout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0c0d10;--ink-soft:#41454f;--mute:#8b909c;--faint:#b8bcc6;--line:rgba(12,13,16,.09);--paper:#fff;--wash:#f5f6f8;--wash-2:#eef0f3;--r:20px;--shadow:0 1px 2px rgba(12,13,16,.04),0 22px 48px -30px rgba(20,30,50,.30);--maxw:1160px}
+*{box-sizing:border-box}body{margin:0;font-family:'Inter',system-ui,sans-serif;color:var(--ink);background:var(--wash);-webkit-font-smoothing:antialiased;line-height:1.55}h1,h2,h3,h4{font-family:'Fraunces',Georgia,serif;font-weight:400;letter-spacing:-.02em;line-height:1.02;margin:0}p{margin:0}a{color:inherit;text-decoration:none}button{font:inherit}img{max-width:100%;display:block}.wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px}.eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute)}
+nav{background:#fff;border-bottom:1px solid var(--line)}.nav-inner{max-width:var(--maxw);margin:0 auto;padding:16px 32px;display:flex;align-items:center;justify-content:space-between;gap:16px}.logo{display:inline-flex;align-items:center;gap:9px;font-family:'Fraunces',serif;font-size:21px;font-weight:500;color:var(--ink)}.logo-mark{width:24px;height:24px;border-radius:50%;background:var(--ink)}.nav-trust{display:inline-flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.03em;color:var(--ink-soft);padding:8px 14px;border:1px solid var(--line);border-radius:100px;background:var(--wash)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.55em;font-weight:600;font-size:15px;padding:14px 26px;border-radius:100px;transition:transform .2s ease;cursor:pointer;border:1px solid transparent;white-space:nowrap}.btn-primary{background:var(--ink);color:#fff;box-shadow:0 10px 26px -12px rgba(12,13,16,.55)}.btn-primary:hover{transform:translateY(-2px)}.btn:disabled{opacity:.55;cursor:not-allowed;transform:none}.btn-secondary{background:#fff;color:var(--ink);border-color:var(--line)}.card{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:26px}.stage{max-width:var(--maxw);margin:0 auto;padding:44px 32px 80px}.checkout-grid{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:22px;align-items:start}.sticky{position:sticky;top:22px}@media(max-width:980px){.checkout-grid{grid-template-columns:1fr}.sticky{position:static}}
+.trust-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:20px}@media(max-width:760px){.trust-strip{grid-template-columns:repeat(2,1fr)}}.trust-chip{background:var(--wash);border:1px solid var(--line);border-radius:14px;padding:14px;text-align:center}.trust-chip b{display:block;font-family:'Fraunces',serif;font-size:19px}.trust-chip span{display:block;margin-top:4px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.05em;color:var(--mute);text-transform:uppercase}
+.summary{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-top:20px}.row{display:flex;justify-content:space-between;gap:16px;padding:15px 18px;border-bottom:1px solid var(--line);font-size:14px}.row:last-child{border-bottom:none}.row span{color:var(--mute);font-weight:500}.row b{font-weight:600;text-align:right}.row.total{background:var(--wash)}.row.total b{font-family:'Fraunces',serif;font-size:20px;font-weight:400}.pay-zone{border:1px dashed var(--faint);border-radius:var(--r);padding:22px;background:var(--wash);font-size:13.5px;margin-top:20px}.pay-zone b{display:block;color:var(--ink);font-family:'Fraunces',serif;font-size:16px;margin-bottom:6px;font-weight:400}.cta{margin-top:18px;width:100%}.note{margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--mute);display:flex;align-items:center;justify-content:center;gap:7px;text-align:center}.error{background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;border-radius:16px;padding:14px;margin-top:16px;font-size:13px}.hidden{display:none!important}
+.account-card-top{display:flex;gap:14px;align-items:center}.account-avatar{width:66px;height:66px;border-radius:50%;object-fit:cover;background:var(--ink);flex:none;box-shadow:0 0 0 3px #fff,0 0 0 4px var(--line)}.account-name{font-family:'Fraunces',serif;font-size:17px}.account-handle{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-soft);margin-top:3px}.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}.stat-card{background:var(--wash);border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}.stat-card b{display:block;font-family:'Fraunces',serif;font-size:18px}.stat-card span{display:block;margin-top:4px;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--mute);text-transform:uppercase;letter-spacing:.04em}.preview-card{margin-top:18px;background:var(--wash);border:1px solid var(--line);border-radius:var(--r);padding:16px}.preview-card h4{font-size:15px;margin-bottom:10px}.preview-row{display:flex;gap:12px;align-items:center}.preview-row img{width:64px;height:64px;border-radius:12px;object-fit:cover;background:var(--wash-2)}.preview-row a{color:var(--ink-soft);font-weight:600;word-break:break-all;font-size:12px}.metric-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}.metric-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}.metric-card b{display:block;font-family:'Fraunces',serif;font-size:16px}.metric-card span{display:block;margin-top:4px;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--mute);text-transform:uppercase;letter-spacing:.04em}.after-pill{display:block;margin-top:12px;background:var(--ink);color:#fff;border-radius:14px;padding:12px;text-align:center;font-size:13px}.guarantees{display:grid;gap:12px;margin-top:16px}.guarantee{display:flex;gap:12px;padding:14px;border:1px solid var(--line);border-radius:16px;background:#fff}.guarantee svg{flex:none}.guarantee strong{display:block;font-size:14px}.sub{font-size:12px;color:var(--mute);margin-top:3px}footer{border-top:1px solid var(--line);background:#fff;padding:34px 0;color:var(--mute);font-size:12px}.foot{display:flex;align-items:center;justify-content:space-between;gap:20px}.foot-links{display:flex;gap:18px;color:var(--ink-soft)}.foot-disclaimer{margin-top:20px;padding-top:18px;border-top:1px solid var(--line);line-height:1.7}.foot-note{margin-top:12px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--mute)}@media(max-width:760px){.wrap,.stage,.nav-inner{padding-left:18px;padding-right:18px}.foot{align-items:flex-start;flex-direction:column}.row{align-items:flex-start;flex-direction:column;gap:4px}.row b{text-align:left}}
+</style>
+</head>
+<body>
+<nav><div class="nav-inner"><a class="logo" href="index.html"><span class="logo-mark"></span>Fame<b>shop</b></a><span class="nav-trust">secure order · Lemon Squeezy ready</span></div></nav>
+
+<div class="stage">
+  <div class="checkout-grid">
+    <div>
+      <div class="card">
+        <span class="eyebrow">your order</span>
+        <h1 style="font-size:26px;margin-top:10px">USA-only order summary</h1>
+        <div style="font-size:14px;color:var(--ink-soft);margin-top:6px">Review your backend-created order before payment. Price is calculated server-side, not from URL params.</div>
+        <div class="trust-strip">
+          <div class="trust-chip"><b>4.8/5</b><span>buyer rating</span></div>
+          <div class="trust-chip"><b>0</b><span>passwords ever</span></div>
+          <div class="trust-chip"><b>30-day</b><span>refill</span></div>
+          <div class="trust-chip"><b>SSL</b><span>secure payment</span></div>
+        </div>
+        <div class="summary" id="summary">
+          <div class="row"><span>Order ID</span><b id="s-order">Loading...</b></div>
+          <div class="row"><span>Account</span><b id="s-user">—</b></div>
+          <div class="row"><span>Platform</span><b id="s-platform">—</b></div>
+          <div class="row"><span>Service</span><b id="s-service">—</b></div>
+          <div class="row"><span>Quality</span><b>USA-only</b></div>
+          <div class="row"><span>Amount</span><b id="s-amount">—</b></div>
+          <div class="row"><span>Status</span><b id="s-status">—</b></div>
+          <div class="row total"><span>Total</span><b id="s-price">—</b></div>
+        </div>
+        <div class="pay-zone" id="pay-zone"><b>Card checkout</b><span id="pay-copy">Lemon Squeezy checkout is ready. Add env values, then this button will create the hosted payment link.</span></div>
+        <div class="error hidden" id="error-box"></div>
+        <button class="btn btn-primary cta" id="pay-btn" disabled>Loading order...</button>
+        <a class="btn btn-secondary cta" id="back-btn" href="search.html" style="display:none">Choose package again</a>
+        <div class="note">256-bit SSL · backend price validation · no password required</div>
+      </div>
+
+      <div class="card" style="margin-top:20px">
+        <span class="eyebrow">fallback</span>
+        <h3 style="font-size:20px;margin-top:10px">Manual payment fallback</h3>
+        <div class="guarantees">
+          <div class="guarantee"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg><div><strong>Need non-card payment?</strong><div class="sub">Use the Order ID above for USDT / bank / manual confirmation. Add the address or support email in this block when ready.</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="sticky">
+      <div class="card" id="side-account-card">
+        <span class="eyebrow">order preview</span>
+        <div class="account-card-top" style="margin-top:14px">
+          <img class="account-avatar" id="side-avatar" alt="">
+          <div><div class="account-name" id="side-name">Account</div><div class="account-handle" id="side-handle">—</div></div>
+        </div>
+        <div class="stat-grid">
+          <div class="stat-card"><b id="side-followers">—</b><span>Followers</span></div>
+          <div class="stat-card"><b id="side-following">—</b><span>Following</span></div>
+          <div class="stat-card"><b id="side-posts">—</b><span>Posts</span></div>
+        </div>
+        <div id="service-preview-slot"></div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<footer><div class="wrap"><div class="foot"><a class="logo" href="index.html"><span class="logo-mark"></span>Fame<b>shop</b></a><div class="foot-links"><a href="index.html#how">How it works</a><a href="index.html#why">Why us</a><a href="index.html#faq">FAQ</a></div></div><div class="foot-disclaimer"><strong>Disclaimer:</strong> Fameshop is an independent digital growth platform and is not affiliated with, endorsed by, sponsored by, or officially connected to Instagram, TikTok, Meta, ByteDance, or any of their related companies. Fameshop never requires account passwords for the standard order flow.</div><div class="foot-note">USA-only growth · 100% real accounts · 0 bots · © 2026 Fameshop</div></div></footer>
+
+<script>
+const params = new URLSearchParams(location.search);
+const orderCode = params.get('order') || params.get('code');
+let currentOrder = null;
+const el = id => document.getElementById(id);
+const cap = s => s ? s.charAt(0).toUpperCase()+s.slice(1) : '—';
+const fmt = n => n == null ? '—' : Number(n) >= 1e6 ? (Number(n)/1e6).toFixed(Number(n)%1e6?1:0)+'M' : Number(n) >= 1e3 ? (Number(n)/1e3).toFixed(Number(n)%1e3?1:0)+'K' : Number(n).toLocaleString('en-US');
+const money = (cents, currency='USD') => new Intl.NumberFormat('en-US',{style:'currency',currency}).format((Number(cents)||0)/100);
+function showError(msg){ el('error-box').textContent = msg; el('error-box').classList.remove('hidden'); }
+function clearError(){ el('error-box').classList.add('hidden'); el('error-box').textContent = ''; }
+
+function renderOrder(order){
+  currentOrder = order;
+  el('s-order').textContent = order.order_code;
+  el('s-user').textContent = order.username ? '@'+order.username : '—';
+  el('s-platform').textContent = cap(order.platform);
+  el('s-service').textContent = cap(order.service);
+  el('s-amount').textContent = Number(order.amount || 0).toLocaleString('en-US');
+  el('s-status').textContent = cap(order.status);
+  el('s-price').textContent = money(order.price_cents, order.currency || 'USD');
+
+  el('side-name').textContent = order.profile_name || order.username || 'Account';
+  el('side-handle').textContent = order.username ? '@'+order.username : '—';
+  el('side-followers').textContent = fmt(order.followers);
+  el('side-following').textContent = fmt(order.following);
+  el('side-posts').textContent = fmt(order.posts);
+  if(order.avatar){ el('side-avatar').src = order.avatar; } else { el('side-avatar').style.opacity = '.2'; }
+
+  const slot = el('service-preview-slot');
+  const amount = Number(order.amount || 0);
+  const service = String(order.service || '').toLowerCase();
+  if(service === 'followers'){
+    const currentFollowers = Number(order.followers || 0);
+    slot.innerHTML = `<div class="preview-card"><h4>Follower delivery preview</h4><div class="metric-grid"><div class="metric-card"><b>${fmt(currentFollowers)}</b><span>Current followers</span></div><div class="metric-card"><b>+${fmt(amount)}</b><span>Package size</span></div><div class="metric-card"><b>${fmt(currentFollowers + amount)}</b><span>Estimated total</span></div></div><div class="after-pill">After delivery preview: ${fmt(currentFollowers + amount)} followers</div></div>`;
+  } else if(['likes','views','shares'].includes(service) && order.post_url){
+    const currentMetric = service === 'likes' ? Number(order.post_likes || 0) : service === 'shares' ? Number(order.post_shares || 0) : Number(order.post_views || 0);
+    slot.innerHTML = `<div class="preview-card"><h4>Selected post</h4><div class="preview-row">${order.post_thumb ? `<img src="${order.post_thumb}" alt="">` : `<img alt="">`}<div><a href="${order.post_url}" target="_blank" rel="noopener">${order.post_url}</a><div style="font-size:12px;color:var(--mute);margin-top:6px">This exact post will receive the selected package.</div></div></div><div class="metric-grid"><div class="metric-card"><b>${fmt(currentMetric)}</b><span>Current ${service}</span></div><div class="metric-card"><b>${fmt(order.post_comments || 0)}</b><span>Comments</span></div><div class="metric-card"><b>+${fmt(amount)}</b><span>${cap(service)} to add</span></div></div><div class="after-pill">After delivery preview: ${fmt(currentMetric + amount)} ${service}</div></div>`;
+  } else {
+    slot.innerHTML = '';
+  }
+
+  if(['paid','processing','delivered'].includes(order.status)){
+    el('pay-btn').textContent = 'Order already paid';
+    el('pay-btn').disabled = true;
+    el('pay-copy').textContent = 'Payment has already been received for this order.';
+  }else{
+    el('pay-btn').textContent = 'Pay securely with card';
+    el('pay-btn').disabled = false;
+  }
+}
+
+async function loadOrder(){
+  if(!orderCode){
+    el('s-order').textContent = 'Missing order';
+    showError('No order code found. Go back and choose a package again.');
+    el('pay-btn').style.display = 'none';
+    el('back-btn').style.display = 'inline-flex';
+    return;
+  }
+  try{
+    const r = await fetch(`/api/order?code=${encodeURIComponent(orderCode)}`, {cache:'no-store'});
+    const j = await r.json().catch(()=>({}));
+    if(!r.ok || !j.ok) throw new Error('Order not found. Create the order again from the package page.');
+    renderOrder(j.order);
+  }catch(e){
+    el('s-order').textContent = orderCode;
+    showError(e.message || 'Could not load order.');
+    el('pay-btn').style.display = 'none';
+    el('back-btn').style.display = 'inline-flex';
+  }
+}
+
+el('pay-btn').addEventListener('click', async ()=>{
+  if(!currentOrder) return;
+  clearError();
+  const btn = el('pay-btn');
+  const oldText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Opening payment...';
+  try{
+    const r = await fetch('/api/create-checkout', {
+      method: 'POST',
+      headers: {'content-type':'application/json'},
+      body: JSON.stringify({order_code: currentOrder.order_code})
+    });
+    const j = await r.json().catch(()=>({}));
+    if(!r.ok || !j.ok){
+      if(j.error === 'payment_config_missing'){
+        throw new Error('Lemon Squeezy env values are missing. Add API key, store id, variant id, then redeploy.');
+      }
+      throw new Error(j.message || 'Could not create payment link.');
+    }
+    location.href = j.checkout_url;
+  }catch(e){
+    showError(e.message || 'Could not create payment link.');
+    btn.disabled = false;
+    btn.textContent = oldText;
+  }
+});
+
+loadOrder();
+</script>
+</body>
+</html>

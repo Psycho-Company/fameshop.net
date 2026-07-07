@@ -1,0 +1,8 @@
+Bu surumde Lemon checkout problemi fixlendi:
+
+1. Followers/likes/views/shares secimine gore Lemon icinden dogru product/variant otomatik bulunmaya calisir.
+2. 500 secince Lemon tarafinda 100 yerine 500 variant secilmeye calisir.
+3. checkout_data.custom icindeki degerler string olarak gonderiliyor.
+4. product_options.enabled_variants ile Lemon checkout'ta sadece secilen variant gosterilmeye calisir.
+
+Sen yine sadece API_KEY_GIR.bat ile API key'i girip BASLAT_TEMIZ.bat calistiracaksin.

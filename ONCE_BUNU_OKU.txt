@@ -1,0 +1,9 @@
+Bu version payment test icin proxy istemez.
+
+1) API_KEY_GIR.bat ac
+2) Lemon API key satirini doldur
+3) Kaydet
+4) BASLAT_TEMIZ.bat ac
+5) Paket sec -> checkout -> Pay securely
+
+Canli profil datasi gelmezse bile sayfa username kabul eder ve paket secimine devam ettirir.

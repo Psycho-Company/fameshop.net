@@ -1,0 +1,14 @@
+1) API_KEY_GIR.bat dosyasina cift tikla.
+2) .env icinde LEMONSQUEEZY_API_KEY satirina yeni Lemon API key'ini yapistir.
+3) Kaydet, kapat.
+4) BASLAT_TEMIZ.bat dosyasina cift tikla.
+5) Otomatik acilan /api/env-check sayfasinda lemon.hasApiKey true olmali.
+6) Siteye gir, paket sec, checkout'ta Pay securely bas.
+
+Hazir degerler:
+LEMONSQUEEZY_STORE_ID=26239
+LEMONSQUEEZY_VARIANT_ID=1881771
+LEMONSQUEEZY_WEBHOOK_SECRET=fameshop_secret_2026_x91
+ADMIN_KEY=123456
+
+Not: API key'i kimseyle paylasma. Ekran goruntusunde gorunduysa Lemon dashboard'dan eski key'i silip yeni key uretmek daha guvenli.

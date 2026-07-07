@@ -1,0 +1,5 @@
+GitHub web upload icin:
+1. Bu klasorun icine gir.
+2. Her seyi sec: CTRL + A
+3. GitHub repo upload ekranina surukle.
+4. .env ve node_modules yok. API key GitHub'a gitmez.
